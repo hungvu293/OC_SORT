@@ -31,6 +31,7 @@ namespace ocsort {
         age = 0;        
         conf = bbox(4); 
         cls = cls_;
+        color = get_color(id);
         last_observation.fill(-1);  
         observations.clear();        
         history_observations.clear();

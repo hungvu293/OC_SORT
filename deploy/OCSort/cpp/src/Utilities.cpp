@@ -38,4 +38,60 @@ namespace ocsort {
         int max_age = iter->first;
         return observations_[max_age];
     }
+
+    std::array<int, 3> hsv_to_rgb_cpp(double h, double s, double v) {
+        double r, g, b;
+
+        if (s == 0.0) {
+            r = v;
+            g = v;
+            b = v;
+        } else {
+            double i = std::floor(h * 6.0);
+            double f = h * 6.0 - i;
+            double p = v * (1.0 - s);
+            double q = v * (1.0 - s * f);
+            double t = v * (1.0 - s * (1.0 - f));
+
+            switch (static_cast<int>(i)) {
+                case 0: r = v; g = t; b = p; break;
+                case 1: r = q; g = v; b = p; break;
+                case 2: r = p; g = v; b = t; break;
+                case 3: r = p; g = q; b = v; break;
+                case 4: r = t; g = p; b = v; break;
+                case 5: r = v; g = p; b = q; break;
+                default: r = 0; g = 0; b = 0; break; 
+            }
+        }
+
+        std::array<int, 3> rgb_color;
+        rgb_color[0] = static_cast<int>(255 * r);
+        rgb_color[1] = static_cast<int>(255 * g);
+        rgb_color[2] = static_cast<int>(255 * b);
+
+        rgb_color[0] = std::max(0, std::min(255, rgb_color[0]));
+        rgb_color[1] = std::max(0, std::min(255, rgb_color[1]));
+        rgb_color[2] = std::max(0, std::min(255, rgb_color[2]));
+
+        return rgb_color;
+    }
+
+
+    std::array<int, 3> get_color(int idx, double s, double vmin) {
+        double h = std::fmod(idx * GOLDEN_RATIO, 1.0);
+
+        double v_range = 1.0 - vmin;
+        double v_fmod_result = std::fmod(idx * GOLDEN_RATIO, v_range);
+        double v = 1.0 - v_fmod_result;
+
+        std::array<int, 3> rgb_color = hsv_to_rgb_cpp(h, s, v);
+
+        std::array<int, 3> bgr_color;
+        bgr_color[0] = rgb_color[2];
+        bgr_color[1] = rgb_color[1];
+        bgr_color[2] = rgb_color[0];
+
+        return bgr_color;
+    }
+
 }// namespace ocsort

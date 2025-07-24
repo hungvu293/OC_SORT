@@ -212,8 +212,8 @@ namespace ocsort {
                 d = trackers.at(i).last_observation.block(0, 0, 1, 4);
             }
             if (trackers.at(i).time_since_update < 1 && ((trackers.at(i).hit_streak >= min_hits) | (frame_count <= min_hits))) {
-                Eigen::RowVectorXf tracking_res(7);
-                tracking_res << d(0), d(1), d(2), d(3), trackers.at(i).id + 1, trackers.at(i).cls, trackers.at(i).conf;
+                Eigen::RowVectorXf tracking_res(10);
+                tracking_res << d(0), d(1), d(2), d(3), trackers.at(i).id + 1, trackers.at(i).cls, trackers.at(i).conf, trackers.at(i).color[0], trackers.at(i).color[1], trackers.at(i).color[2];
                 ret.push_back(tracking_res);
             }
             if (trackers.at(i).time_since_update > max_age) {

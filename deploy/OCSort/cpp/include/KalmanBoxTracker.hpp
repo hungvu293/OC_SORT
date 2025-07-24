@@ -32,6 +32,7 @@ namespace ocsort {
         int age = 0;
         float conf;
         int cls;
+        std::array<int, 3> color;
         Eigen::RowVectorXf last_observation = Eigen::RowVectorXf::Zero(5);
         std::unordered_map<int, Eigen::VectorXf> observations;
         std::vector<Eigen::VectorXf> history_observations;
